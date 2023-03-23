@@ -17,4 +17,9 @@ public class Character : MonoBehaviour
             _animator.SetTrigger(currentAnimName);
         }
     }
+    public void OnHit()
+    {
+        Debug.Log("Hit");
+    }
+
 }

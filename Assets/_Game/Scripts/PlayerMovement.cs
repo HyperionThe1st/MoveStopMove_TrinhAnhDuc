@@ -8,15 +8,12 @@ public class PlayerMovement : Character
     //[SerializeField] private CharacterController _charController;
 
     [SerializeField] private Rigidbody _rb;
-
-
-
     [SerializeField] private Joystick _mngrJoystick;
     [SerializeField] private GameObject tempPlayer;
 
     //Transform:
-    private Transform meshPlayer;
-
+    [SerializeField]private Transform meshPlayer;
+    [SerializeField] private LayerMask groundLayer;
 
     //Movement:
     private float inputX;
@@ -31,7 +28,7 @@ public class PlayerMovement : Character
     {
 
         //_charController = tempPlayer.GetComponent<CharacterController>();
-        meshPlayer = tempPlayer.transform.GetChild(0);
+        //meshPlayer = tempPlayer.transform.GetChild(0);
         _mngrJoystick = GameObject.Find(Variable.IMGJOYSTICKBACKGROUND).GetComponent<Joystick>();
     }
 
@@ -57,20 +54,16 @@ public class PlayerMovement : Character
     {
         //gravity:
         float tempY;
-
-        ////if (_charController.isGrounded)
-        ////{
-        ////    v_movement.y = 0f;
-        ////}
-        ////else
-        ////{
-        ////    v_movement.y -= gravity * Time.fixedDeltaTime;
-        ////}
+        if (isGround())
+        {
+            v_movement.y = 0f;
+        }
+        else
+        {
+            v_movement.y -= gravity * Time.fixedDeltaTime;
+        }
         tempY = v_movement.y;
         //movement:
-
-
-
         if (movementSpeed > 0)
         {
             v_movement = new Vector3(inputX * movementSpeed, tempY, inputZ * movementSpeed);
@@ -114,4 +107,14 @@ public class PlayerMovement : Character
     {
         //movementSpeed = Variable.MOVEMENTSPEED;
     }
+
+    public bool isGround()
+    {
+        bool hit = Physics.Raycast(transform.position,Vector3.down,1.1f,groundLayer);
+        return hit;
+    }
+
+
+
+
 }
