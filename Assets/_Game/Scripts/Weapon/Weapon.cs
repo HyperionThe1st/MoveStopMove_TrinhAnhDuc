@@ -4,30 +4,28 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField] private GameObject _weaponPrefabs;
-    [SerializeField] private Rigidbody _weaponRigid;
-    [SerializeField] private GameObject attackBox;
-
+    [SerializeField] private Rigidbody _rb;
+    private Vector3 destination;
+    private Vector3 start;
+    private Character _char;
     private void Start()
     {
-        OnInit();
+        //_rb.velocity = (destination - start) * Variable.WEAPONDEFAULTSPEED;
     }
-    private void OnInit()
+    private void OnTriggerEnter(Collider other)
     {
-
-    }
-    public void onDespawn()
-    {
-        Destroy(gameObject);
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == Variable.TARGET)
+        if (other.tag == Variable.TARGET)
         {
-            
-            collision.GetComponent<Character>().OnHit();
-            Instantiate(_weaponPrefabs, attackBox.transform.position, transform.rotation);
-            onDespawn();
+            gameObject.SetActive(false);
+            other.gameObject.SetActive(false);
         }
+    }
+    public void SetDestination(Vector3 des)
+    {
+        destination = des;
+    }
+    public void SetStart(Vector3 thisStart)
+    {
+        start = thisStart;
     }
 }

@@ -8,11 +8,12 @@ TagManager:
   - FxTemporaire
   - Character
   - imgJoystickBg
+  - Target
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Table
   - Water
   - UI
   - 
