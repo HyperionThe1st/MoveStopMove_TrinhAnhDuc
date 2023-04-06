@@ -2,18 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class Character : GameUnit
 {
+
+    //Di Chuyen
     private string currentAnimName;
     [SerializeField] private Animator _animator;
     [SerializeField] public Transform meshPlayer;
     private bool isRunning;
     private bool isDead;
     public List<GameObject> listTargets;
+    [SerializeField] public GameObject attackBox;
 
+    //Vu khi
+    public float attackRange = 5f;
+    [SerializeField] public Weapon _wp;
     private void Start()
     {
-        isDead = false;
+
     }
     protected void ChangeAnim(string animName)
     {
@@ -24,6 +30,11 @@ public class Character : MonoBehaviour
             currentAnimName = animName;
             _animator.SetTrigger(currentAnimName);
         }
+    }
+
+    public virtual void OnInit()
+    {
+        isDead = false;
     }
     public void OnHit()
     {
@@ -40,7 +51,6 @@ public class Character : MonoBehaviour
         return isRunning;
     }
 
-    [System.Obsolete]
     public GameObject GetClosetObject()
     {
         CheckExist();
@@ -75,40 +85,25 @@ public class Character : MonoBehaviour
 
     }
 
-    public void AttackClosestEnemy()
-    {
-        //ChangeAnim(Variable.ATTACK);
-        Invoke(nameof(Attack), Variable.ATTACKDELAY);
-    }
-
-    public void Attack()
+    public virtual void Attack()
     {
         GameObject closestEnemy = GetClosetObject();
         if (closestEnemy != null)
         {
-            CreateWeapon(closestEnemy);
+            RotateToEnemy();
+            ChangeAnim(Variable.ATTACK);
             ShowUnderline(closestEnemy);
         }
 
     }
-    public void CreateWeapon(GameObject _closestEnemy)
+
+    public virtual void SpawnWeapon()
     {
-        GameObject instanceWeapon = ObjectPool.PoolInstance.GetPooledObject();
-        if (instanceWeapon != null)
-        {
-            Vector3 attackPos = transform.GetChild(2).transform.position;
-            Vector3 destinationPos = _closestEnemy.transform.position;
-            instanceWeapon.transform.position = Vector3.MoveTowards(attackPos, destinationPos, Variable.WEAPONDEFAULTSPEED * Time.deltaTime);
-            instanceWeapon.transform.rotation = Quaternion.LookRotation(destinationPos - attackPos);
-            instanceWeapon.SetActive(true);
-            Rigidbody weaponRigid = instanceWeapon.GetComponent<Rigidbody>();
-            if (weaponRigid != null)
-            {
-                weaponRigid.velocity = (destinationPos - attackPos) * Variable.WEAPONDEFAULTSPEED;
-            }
-            StartCoroutine(DeactivateProjectile(instanceWeapon));
-        }
+        Vector3 target = GetClosetObject().transform.position;
+        Weapon weapon = SimplePool.Spawn<Weapon>(_wp, attackBox.transform.position, Quaternion.identity);
+        weapon?.WeaponInit(this, target);
     }
+
     public IEnumerator DeactivateProjectile(GameObject gameObject)
     {
         yield return new WaitForSeconds(Variable.WEAPONLIFETIME);
@@ -121,7 +116,6 @@ public class Character : MonoBehaviour
         _go.transform.GetChild(bottomMost).gameObject.SetActive(true);
     }
 
-    [System.Obsolete]
     public void CheckExist()
     {
         if (listTargets.Count.Equals(0))
@@ -132,7 +126,7 @@ public class Character : MonoBehaviour
         {
             foreach (GameObject go in listTargets)
             {
-                if (go.active == false)
+                if (go.activeSelf == false)
                 {
                     listTargets.Remove(go);
                 }

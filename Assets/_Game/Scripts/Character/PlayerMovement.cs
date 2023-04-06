@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +10,7 @@ public class PlayerMovement : Character
     [SerializeField] private Joystick _mngrJoystick;
     [SerializeField] private GameObject tempPlayer;
     //Transform:
-    
+
     [SerializeField] private LayerMask groundLayer;
 
     //Movement:
@@ -26,10 +28,7 @@ public class PlayerMovement : Character
     {
         //meshPlayer = tempPlayer.transform.GetChild(0);
         _mngrJoystick = GameObject.Find(Variable.IMGJOYSTICKBACKGROUND).GetComponent<Joystick>();
-
-
         listTargets = new List<GameObject>();
-
     }
 
     // Update is called once per frame
@@ -49,19 +48,17 @@ public class PlayerMovement : Character
             ChangeAnim(Variable.RUN);
             SetRunning(true);
             SetTimer(1);
-            
+
         }
         else if (inputX == 0 && inputZ == 0 && listTargets.Count != 0)
         {
             if (timer == 1)
             {
                 SetRunning(false);
-                RotateToEnemy();
-                ChangeAnim(Variable.ATTACK);
                 Attack();
                 timer = 0;
                 ChangeAnim(Variable.IDLE);
-            }      
+            }
         }
 
     }
@@ -80,13 +77,7 @@ public class PlayerMovement : Character
         }
         tempY = v_movement.y;
 
-        //movement:
-        //v_movement = new Vector3(inputX, tempY, inputZ);
-        //Vector3 moveVector = transform.TransformDirection(v_movement) * movementSpeed;
-        //_rb.velocity = new Vector3(moveVector.x, _rb.velocity.y, moveVector.z);
-
-
-        //C2: 
+        //move
         v_movement = new Vector3(inputX * movementSpeed, tempY, inputZ * movementSpeed);
         _rb.velocity = new Vector3(v_movement.x, _rb.velocity.y, v_movement.z);
 
@@ -98,14 +89,14 @@ public class PlayerMovement : Character
             //transform.rotation = Quaternion.LookRotation(lookDir);
         }
     }
-    
+
     public bool isGround()
     {
         bool hit = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
         return hit;
     }
 
-    
+
     public void SetTimer(int a)
     {
         timer = a;
@@ -113,5 +104,39 @@ public class PlayerMovement : Character
     public void ResetTimer()
     {
         timer = 0;
+    }
+    public override void SpawnWeapon()
+    {
+        base.SpawnWeapon();
+    }
+
+    public override void Attack()
+    {
+        base.Attack();
+        StartCoroutine(DoSpawnWeapon());
+    }
+
+    IEnumerator DoSpawnWeapon()
+    {
+        float timerate = 0.4f;
+        float _time_2 = 0;
+
+        while (_time_2 < timerate)
+        {
+            _time_2 += Time.deltaTime;
+            yield return null;
+            if (Input.GetMouseButton(0))
+            {
+                goto Lable;
+            }
+        }
+        SpawnWeapon();
+    Lable:
+        yield return null;
+    }
+
+    public override void OnInit()
+    {
+        base.OnInit();
     }
 }

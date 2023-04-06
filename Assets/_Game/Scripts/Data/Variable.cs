@@ -7,7 +7,7 @@ public class Variable : MonoBehaviour
     //Object:
     public const string IMGJOYSTICKBACKGROUND = "imgJoystickBg";
     public const string TARGET = "Target";
-    public const float WEAPONDEFAULTSPEED = 1.0f;
+    public const float WEAPONDEFAULTSPEED = 5.0f;
     public const float TARGETUNDERLINEROTATESPEED = 0.5f;
 
     //Anim:
@@ -21,4 +21,18 @@ public class Variable : MonoBehaviour
     //Time:
     public const float WEAPONLIFETIME = 2.5f;
     public const float ATTACKDELAY = 1.0f;
+
+    //enum:
+    public enum PoolType
+    {
+        Bot,
+
+        Knife,
+        Axe,
+        Bomerang
+    }
+
+    //DistanceAndAmount:
+    public const float SPAWNDISTANCE = 10.0f;
+    public const int MAXBOTONSCREEN = 10;
 }

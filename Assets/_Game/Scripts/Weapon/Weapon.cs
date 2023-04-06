@@ -2,30 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class Weapon : GameUnit
 {
     [SerializeField] private Rigidbody _rb;
-    private Vector3 destination;
-    private Vector3 start;
-    private Character _char;
-    private void Start()
+    private Character _character;
+    private Vector3 attackPos;
+    private float atkRange;
+
+    public void WeaponInit(Character _char, Vector3 targetPostion)
     {
-        //_rb.velocity = (destination - start) * Variable.WEAPONDEFAULTSPEED;
+        this._character = _char;
+        attackPos = _character.attackBox.transform.position;
+        TF.forward = (targetPostion - TF.position).normalized;
+    }
+
+
+    private void Update()
+    {
+        if (Vector3.Distance(TF.position, attackPos) < _character.attackRange)
+        {
+            TF.forward = new Vector3(TF.forward.x, 0, TF.forward.z);
+            TF.Translate(TF.forward * Variable.WEAPONDEFAULTSPEED * Time.deltaTime, Space.World);
+        }
+        else
+        {
+            OnDespawn();
+        }
+    }
+    public void OnDespawn()
+    {
+        SimplePool.Despawn(this);
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == Variable.TARGET)
         {
-            gameObject.SetActive(false);
-            other.gameObject.SetActive(false);
+            OnDespawn();
+            //Xoa khoi List
+            _character.listTargets.Remove(other.gameObject);
+            //Chuyen Anim
+            //Despawn
+            Destroy(other.gameObject);
         }
-    }
-    public void SetDestination(Vector3 des)
-    {
-        destination = des;
-    }
-    public void SetStart(Vector3 thisStart)
-    {
-        start = thisStart;
     }
 }

@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5371858925864712144}
   - component: {fileID: 1377681410780266047}
-  - component: {fileID: 6420674925378187024}
   - component: {fileID: -4231646052131591578}
+  - component: {fileID: -8412734276069224152}
   m_Layer: 0
   m_Name: Knife
   m_TagString: Untagged
@@ -50,19 +50,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6420674925378187024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5371858925864712147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da475e32ac4a80a4c8584edfb22669af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rb: {fileID: 1377681410780266047}
 --- !u!65 &-4231646052131591578
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -76,6 +63,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.019686017, y: 0.010377812, z: 0.080891505}
   m_Center: {x: -0.00041317567, y: -0.0012476206, z: -0.005577928}
+--- !u!114 &-8412734276069224152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5371858925864712147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da475e32ac4a80a4c8584edfb22669af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolType: 2
+  _rb: {fileID: 1377681410780266047}
 --- !u!1001 &5371858925925694293
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -4,14 +4,19 @@ using UnityEngine;
 using UnityEngine.AI;
 public class Bot : Character
 {
-    NavMeshAgent agent;
+    //Moving
+    [SerializeField] public NavMeshAgent agent;
     private Bounds flrBounds;
     public GameObject floor;
-    Vector3 pointToMove;
+    public Vector3 pointToMove;
+
+    //Weapon
+
+
     private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
         flrBounds = floor.GetComponent<Renderer>().bounds;
+        ChangeState(new IdleState());
     }
 
     private void Update()
@@ -24,7 +29,7 @@ public class Bot : Character
         }
     }
 
-    private Vector3 GetRandomPoint()
+    public Vector3 GetRandomPoint()
     {
         float rx = Random.Range(flrBounds.min.x, flrBounds.max.x);
         float rz = Random.Range(flrBounds.min.z, flrBounds.max.z);
@@ -54,6 +59,34 @@ public class Bot : Character
         {
             currentState.OnEnter(this);
         }
+    }
+    public override void Attack()
+    {
+        base.Attack();
+        SpawnWeapon();
+    }
+
+    public IEnumerator DoAttack()
+    {
+        Attack();
+        float time = 0;
+        float timer = 1.1f;
+        while (time < timer)
+        {
+            time += Time.deltaTime;
+
+            yield return null;
+        }
+        int numRand = Random.Range(0, 100);
+        if (numRand > 50)
+        {
+            ChangeState(new IdleState());
+        }
+        else
+        {
+            ChangeState(new PatrolState());
+        }
+        yield return null;
     }
 }
 

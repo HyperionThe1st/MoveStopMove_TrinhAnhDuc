@@ -8,6 +8,7 @@ public class PatrolState : IState
     float randomTime;
     public void OnEnter(Bot bot)
     {
+        bot.pointToMove = bot.GetRandomPoint();
         timer = 0;
         randomTime = Random.Range(3f, 6f);
     }
@@ -18,13 +19,28 @@ public class PatrolState : IState
 
         if (bot.listTargets.Count != 0)
         {
-            bot.ChangeState(new AttackState());
+            int ran = Random.Range(0, 10);
+            if (ran > 8)
+            {
+                bot.ChangeState(new AttackState());
+            }
+            else
+            {
+                bot.Move();
+            }     
         }
         else
         {
             if (timer < randomTime)
             {
-                bot.Move();
+                if (bot.transform.position.Equals(bot.pointToMove))
+                {
+                    bot.ChangeState(new IdleState());
+                }
+                else
+                {
+                    bot.Move();
+                }
             }
             else
             {

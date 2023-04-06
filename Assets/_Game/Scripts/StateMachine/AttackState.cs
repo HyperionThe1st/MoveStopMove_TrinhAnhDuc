@@ -9,7 +9,7 @@ public class AttackState : IState
     {
         bot.StopMoving();
         bot.RotateToEnemy();
-        bot.Attack();
+        bot.StartCoroutine(bot.DoAttack());
         timer = 0;
     }
 
@@ -24,6 +24,5 @@ public class AttackState : IState
 
     public void OnExit(Bot bot)
     {
-        throw new System.NotImplementedException();
     }
 }
