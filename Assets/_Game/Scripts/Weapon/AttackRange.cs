@@ -5,9 +5,6 @@ using UnityEngine;
 public class AttackRange : MonoBehaviour
 {
     public Character _char;
-    private void Start()
-    {
-    }
     private void OnTriggerEnter(Collider other)
     {
         switch (other.tag)
@@ -18,7 +15,7 @@ public class AttackRange : MonoBehaviour
                     {
                         break;
                     }
-                    _char.listTargets.Add(other.gameObject);
+                    _char.listTargets.Add(other.gameObject.GetComponent<GameUnit>());
                     break;
                 }
         }
@@ -30,7 +27,7 @@ public class AttackRange : MonoBehaviour
         {
             case Variable.TARGET:
                 {
-                    _char.listTargets.Remove(other.gameObject);
+                    _char.listTargets.Remove(other.gameObject.GetComponent<GameUnit>());
                     break;
                 }
         }

@@ -23,17 +23,30 @@ public class SpawnBot : GameUnit
     private void Awake()
     {
         SpawnerBotInstance = this;
+        listBotToPool = new List<Bot>();
     }
 
     private void Start()
     {
-        listBotToPool = new List<Bot>();
+        LevelManager.instance.characterList.Add(_player);
+        _player.OnInit();
         OnInit();
     }
 
     private void OnInit()
     {
+        Vector3 newPos = GetRandomPosition(transform.position, radius, -1);
+        for (int i = 0; i < totalAmount; i++)
+        {
+            Bot bot = SimplePool.Spawn<Bot>(botPrefabs, newPos, Quaternion.identity);
+            bot.gameObject.SetActive(false);
+            listBotToPool.Add(bot);
+        }
 
+        for (int i = 0; i < Variable.MAXBOTONSCREEN; i++)
+        {
+            BotSpawn();
+        }
     }
 
 
@@ -62,7 +75,7 @@ public class SpawnBot : GameUnit
             LevelManager.instance.characterList.Add(bot);
         }
     }
-    public IEnumerator CoroutineSpawnBot()
+    public IEnumerator DoSpawnBot()
     {
         yield return new WaitForSeconds(2f);
         BotSpawn();

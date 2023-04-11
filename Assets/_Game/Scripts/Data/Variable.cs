@@ -34,5 +34,5 @@ public class Variable : MonoBehaviour
 
     //DistanceAndAmount:
     public const float SPAWNDISTANCE = 10.0f;
-    public const int MAXBOTONSCREEN = 10;
+    public const int MAXBOTONSCREEN = 9;
 }

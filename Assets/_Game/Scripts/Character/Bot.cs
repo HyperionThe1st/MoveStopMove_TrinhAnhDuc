@@ -88,5 +88,18 @@ public class Bot : Character
         }
         yield return null;
     }
+
+
+    public void OnDespawn()
+    {
+        SimplePool.Despawn(this);
+    }
+    public override void OnHit()
+    {
+        base.OnHit();
+        StopMoving();
+        SetObjectActive(false);
+        LevelManager.instance.RemoveTarget(this);
+    }
 }
 

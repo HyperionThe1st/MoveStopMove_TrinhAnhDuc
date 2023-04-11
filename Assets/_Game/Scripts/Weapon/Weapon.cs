@@ -7,7 +7,7 @@ public class Weapon : GameUnit
     [SerializeField] private Rigidbody _rb;
     private Character _character;
     private Vector3 attackPos;
-    private float atkRange;
+
 
     public void WeaponInit(Character _char, Vector3 targetPostion)
     {
@@ -39,10 +39,17 @@ public class Weapon : GameUnit
         {
             OnDespawn();
             //Xoa khoi List
-            _character.listTargets.Remove(other.gameObject);
-            //Chuyen Anim
+            _character.listTargets.Remove(other.gameObject.GetComponent<GameUnit>());
             //Despawn
-            Destroy(other.gameObject);
+            Bot triggeredBot = other.gameObject.GetComponent<Bot>();
+            if (triggeredBot != null)
+            {
+                triggeredBot.ChangeState(new DeadState());
+            }
+            else
+            {
+                other.gameObject.GetComponent<PlayerMovement>().SetIsDead(false);
+            }
         }
     }
 }

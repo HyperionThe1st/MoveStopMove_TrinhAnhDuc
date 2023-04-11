@@ -28,7 +28,7 @@ public class PlayerMovement : Character
     {
         //meshPlayer = tempPlayer.transform.GetChild(0);
         _mngrJoystick = GameObject.Find(Variable.IMGJOYSTICKBACKGROUND).GetComponent<Joystick>();
-        listTargets = new List<GameObject>();
+        listTargets = new List<GameUnit>();
     }
 
     // Update is called once per frame
@@ -89,7 +89,10 @@ public class PlayerMovement : Character
             //transform.rotation = Quaternion.LookRotation(lookDir);
         }
     }
-
+    public override void OnInit()
+    {
+        base.OnInit();
+    }
     public bool isGround()
     {
         bool hit = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
@@ -135,8 +138,5 @@ public class PlayerMovement : Character
         yield return null;
     }
 
-    public override void OnInit()
-    {
-        base.OnInit();
-    }
+
 }

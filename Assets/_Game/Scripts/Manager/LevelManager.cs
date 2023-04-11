@@ -22,9 +22,9 @@ public class LevelManager : MonoBehaviour
     {
         for (int i = 0; i < characterList.Count; i++)
         {
-            if (characterList[i].listTargets.Contains(character.gameObject))
+            if (characterList[i].listTargets.Contains(character.gameObject.GetComponent<GameUnit>()))
             {
-                characterList[i].listTargets.Remove(character.gameObject);
+                characterList[i].listTargets.Remove(character.gameObject.GetComponent<GameUnit>());
             }
         }
     }

@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbe172d0a4d42ab47992e55f06b7349c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _char: {fileID: 0}
+  _char: {fileID: 1089293180}
 --- !u!1 &1027646956997125693
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7896015c4f7fe9b49956f00f20cf2506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolType: 0
+  poolType: 1
   _animator: {fileID: 1881888515626361706}
   meshPlayer: {fileID: 1027646956997125688}
   listTargets: []
@@ -219,7 +219,7 @@ MonoBehaviour:
   attackRange: 5
   _wp: {fileID: -8412734276069224152, guid: 4bbb3b00141b10c4ca0ed4b1a6daa7c0, type: 3}
   agent: {fileID: 1089293179}
-  floor: {fileID: 0}
+  floor: {fileID: 4710051123173946506, guid: fb144a6197e670442aaec049d5954e8f, type: 3}
   pointToMove: {x: 0, y: 0, z: 0}
 --- !u!1 &1027646957076985811
 GameObject:
@@ -341,7 +341,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2061246858731249868}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da475e32ac4a80a4c8584edfb22669af, type: 3}
   m_Name: 

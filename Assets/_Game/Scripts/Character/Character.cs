@@ -11,7 +11,7 @@ public class Character : GameUnit
     [SerializeField] public Transform meshPlayer;
     private bool isRunning;
     private bool isDead;
-    public List<GameObject> listTargets;
+    public List<GameUnit> listTargets;
     [SerializeField] public GameObject attackBox;
 
     //Vu khi
@@ -36,7 +36,7 @@ public class Character : GameUnit
     {
         isDead = false;
     }
-    public void OnHit()
+    public virtual void OnHit()
     {
         ChangeAnim(Variable.DIE);
     }
@@ -51,14 +51,27 @@ public class Character : GameUnit
         return isRunning;
     }
 
-    public GameObject GetClosetObject()
+    public bool GetIsDead()
+    {
+        return isDead;
+    }
+    public void SetIsDead(bool dead)
+    {
+        this.isDead = dead;
+    }
+    public void SetObjectActive(bool isActive)
+    {
+        this.gameObject.SetActive(isActive);
+    }
+
+    public GameUnit GetClosetObject()
     {
         CheckExist();
         List<float> distance = new List<float>();
         if (listTargets.Count == 0) return null;
         else
         {
-            foreach (GameObject go in listTargets)
+            foreach (GameUnit go in listTargets)
             {
                 float temp = Vector3.Distance(go.transform.position, transform.position);
                 distance.Add(temp);
@@ -87,7 +100,7 @@ public class Character : GameUnit
 
     public virtual void Attack()
     {
-        GameObject closestEnemy = GetClosetObject();
+        GameUnit closestEnemy = GetClosetObject();
         if (closestEnemy != null)
         {
             RotateToEnemy();
@@ -110,7 +123,7 @@ public class Character : GameUnit
         gameObject.SetActive(false);
     }
 
-    public void ShowUnderline(GameObject _go)
+    public void ShowUnderline(GameUnit _go)
     {
         int bottomMost = _go.transform.childCount - 1;
         _go.transform.GetChild(bottomMost).gameObject.SetActive(true);
@@ -124,9 +137,9 @@ public class Character : GameUnit
         }
         else
         {
-            foreach (GameObject go in listTargets)
+            foreach (GameUnit go in listTargets)
             {
-                if (go.activeSelf == false)
+                if (go.gameObject.activeSelf == false)
                 {
                     listTargets.Remove(go);
                 }
@@ -136,10 +149,10 @@ public class Character : GameUnit
     }
     public void RotateToEnemy()
     {
-        GameObject target = GetClosetObject();
+        GameUnit target = GetClosetObject();
         if (target != null)
         {
-            Vector3 targetPosition = target.transform.position;
+            Vector3 targetPosition = target.gameObject.transform.position;
             Vector3 lookDirection = targetPosition - transform.position;
 
             meshPlayer.rotation = Quaternion.LookRotation(lookDirection);
