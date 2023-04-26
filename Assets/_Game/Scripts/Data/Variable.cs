@@ -9,6 +9,7 @@ public class Variable : MonoBehaviour
     public const string TARGET = "Target";
     public const float WEAPONDEFAULTSPEED = 5.0f;
     public const float TARGETUNDERLINEROTATESPEED = 0.5f;
+    public const string BLOCK = "Block";
 
     //Anim:
     public const string IDLE = "idle";
@@ -32,7 +33,20 @@ public class Variable : MonoBehaviour
         Bomerang
     }
 
+    public enum CameraState
+    {
+        MainMenu = 0,
+        Play = 1,
+        Shop = 2,
+    }
+
     //DistanceAndAmount:
-    public const float SPAWNDISTANCE = 10.0f;
+    public const float SPAWNDISTANCE = 7.0f;
     public const int MAXBOTONSCREEN = 9;
+    public const int MAXBOT = 50;
+
+
+    //Skin:
+    public const string SKIN_ID = "skin_id";
+    public const string COST = "cost";
 }

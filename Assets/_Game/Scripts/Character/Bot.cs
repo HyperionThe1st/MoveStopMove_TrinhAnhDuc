@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
+
 public class Bot : Character
 {
     //Moving
@@ -9,9 +11,7 @@ public class Bot : Character
     private Bounds flrBounds;
     public GameObject floor;
     public Vector3 pointToMove;
-
     //Weapon
-
 
     private void Start()
     {
@@ -21,9 +21,7 @@ public class Bot : Character
 
     private void Update()
     {
-        if (currentState != null
-            //&& !isDead
-            )
+        if (currentState != null)
         {
             currentState.OnExecute(this);
         }
@@ -38,14 +36,16 @@ public class Bot : Character
     }
     public void Move()
     {
+        agent.enabled = true;
         ChangeAnim(Variable.RUN);
+
         agent.SetDestination(pointToMove);
     }
 
     public void StopMoving()
     {
         ChangeAnim(Variable.IDLE);
-        agent.SetDestination(transform.position);
+        agent.enabled = false;
     }
     private IState currentState;
     public void ChangeState(IState newstate)
@@ -63,6 +63,7 @@ public class Bot : Character
     public override void Attack()
     {
         base.Attack();
+        //Invoke(nameof(SpawnWeapon),Variable.ATTACKDELAY);
         SpawnWeapon();
     }
 
@@ -98,7 +99,7 @@ public class Bot : Character
     {
         base.OnHit();
         StopMoving();
-        SetObjectActive(false);
+        SetMask(false);
         LevelManager.instance.RemoveTarget(this);
     }
 }

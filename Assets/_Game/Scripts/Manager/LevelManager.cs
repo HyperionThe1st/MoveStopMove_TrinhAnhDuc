@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        alive = Variable.MAXBOT;
 
     }
     // Start is called before the first frame update

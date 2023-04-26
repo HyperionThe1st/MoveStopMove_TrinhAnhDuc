@@ -115,8 +115,15 @@ public class PlayerMovement : Character
 
     public override void Attack()
     {
-        base.Attack();
+        GameUnit closestEnemy = GetClosetObject();
+        if (closestEnemy != null)
+        {
+            RotateToEnemy();
+            ChangeAnim(Variable.ATTACK);
+            ShowUnderline(closestEnemy);
+        }
         StartCoroutine(DoSpawnWeapon());
+        
     }
 
     IEnumerator DoSpawnWeapon()
@@ -137,6 +144,9 @@ public class PlayerMovement : Character
     Lable:
         yield return null;
     }
-
+    public override void OnHit()
+    {
+        base.OnHit();
+    }
 
 }

@@ -12,7 +12,7 @@ public class SpawnBot : GameUnit
     [SerializeField] public List<Bot> listBotToPool;
 
     //Amount
-    [SerializeField] public int totalAmount;
+    private int totalAmount;
     //public const float SPAWNDISTANCE = 10.0f;
     //public const int MAXBOTONSCREEN = 10;
 
@@ -24,17 +24,23 @@ public class SpawnBot : GameUnit
     {
         SpawnerBotInstance = this;
         listBotToPool = new List<Bot>();
+        totalAmount = Variable.MAXBOT;
+    }
+    private void Update()
+    {
+
     }
 
     private void Start()
     {
-        LevelManager.instance.characterList.Add(_player);
+
         _player.OnInit();
         OnInit();
     }
 
     private void OnInit()
     {
+        LevelManager.instance.characterList.Add(_player);
         Vector3 newPos = GetRandomPosition(transform.position, radius, -1);
         for (int i = 0; i < totalAmount; i++)
         {
@@ -50,7 +56,7 @@ public class SpawnBot : GameUnit
     }
 
 
-    public Bot GetBotFormPool()
+    public Bot GetBotFromPool()
     {
         Vector3 newPos = GetRandomPosition(transform.position, radius, -1);
         for (int i = 0; i < listBotToPool.Count; i++)
@@ -62,16 +68,19 @@ public class SpawnBot : GameUnit
         }
         Bot bot = SimplePool.Spawn<Bot>(PoolType.Bot, newPos, Quaternion.identity);
         bot.gameObject.SetActive(false);
+        //bot.SetIsDead(false);
         listBotToPool.Add(bot);
         return bot;
     }
 
     public void BotSpawn()
     {
-        Bot bot = GetBotFormPool();
+        Bot bot = GetBotFromPool();
+        bot.OnInit();
         if (CheckRandomPos(bot))
         {
             bot.gameObject.SetActive(true);
+
             LevelManager.instance.characterList.Add(bot);
         }
     }
@@ -79,7 +88,6 @@ public class SpawnBot : GameUnit
     {
         yield return new WaitForSeconds(2f);
         BotSpawn();
-
     }
 
     public static Vector3 GetRandomPosition(Vector3 origin, float dist, int layermask)

@@ -2,16 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class Bomerang : Weapon
 {
-    // Start is called before the first frame update
-    void Start()
+    private Vector3 target;
+    public Transform pivotPoint;
+    public float rotationSpeed = 700f;
+
+    public enum State { Forward, Backward, Stop }
+
+    private State state;
+
+    private void Start()
     {
-        
+        pivotPoint = transform;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         
     }

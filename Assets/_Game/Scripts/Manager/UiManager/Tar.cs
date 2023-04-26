@@ -10,7 +10,7 @@ public class Tar : MonoBehaviour
     }
     private void Update()
     {
-        if (gameObject.active)
+        if (gameObject.activeSelf)
         {
             transform.Rotate(0, 0, Variable.TARGETUNDERLINEROTATESPEED);
         }

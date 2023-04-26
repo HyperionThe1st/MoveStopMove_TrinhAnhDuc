@@ -6,6 +6,6 @@ public class ButtonCollection : MonoBehaviour
 {
     public void ChangeScreen(GameObject _screen)
     {
-        UIManager.UIInstance.ChangeUIState(_screen);
+        //UIManager.Ins.ChangeUIState(_screen);
     }
 }

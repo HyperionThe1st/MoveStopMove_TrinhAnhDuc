@@ -10,17 +10,30 @@ public class Character : GameUnit
     [SerializeField] private Animator _animator;
     [SerializeField] public Transform meshPlayer;
     private bool isRunning;
-    private bool isDead;
+    public bool isDead;
     public List<GameUnit> listTargets;
     [SerializeField] public GameObject attackBox;
 
     //Vu khi
     public float attackRange = 5f;
     [SerializeField] public Weapon _wp;
+
+    //Size:
+    public int score;
     private void Start()
     {
 
     }
+    public void ChangeSize()
+    {
+        meshPlayer.localScale = Vector3.one + new Vector3(0.05f, 0.05f, 0.05f) * score;
+    }
+    public float ScaleSize()
+    {
+        float temp = 1 + (0.05f) * score;
+        return temp;
+    }
+
     protected void ChangeAnim(string animName)
     {
         if (currentAnimName != animName)
@@ -34,6 +47,7 @@ public class Character : GameUnit
 
     public virtual void OnInit()
     {
+        score = 0;
         isDead = false;
     }
     public virtual void OnHit()
@@ -59,8 +73,9 @@ public class Character : GameUnit
     {
         this.isDead = dead;
     }
-    public void SetObjectActive(bool isActive)
+    public IEnumerable SetObjectActive(bool isActive)
     {
+        yield return new WaitForSeconds(0.5f);
         this.gameObject.SetActive(isActive);
     }
 
@@ -105,16 +120,19 @@ public class Character : GameUnit
         {
             RotateToEnemy();
             ChangeAnim(Variable.ATTACK);
-            ShowUnderline(closestEnemy);
+            //ShowUnderline(closestEnemy);
         }
-
     }
 
     public virtual void SpawnWeapon()
     {
         Vector3 target = GetClosetObject().transform.position;
         Weapon weapon = SimplePool.Spawn<Weapon>(_wp, attackBox.transform.position, Quaternion.identity);
-        weapon?.WeaponInit(this, target);
+        //if (weapon.gameObject.activeInHierarchy)
+        //{
+        //    Debug.Log(1);
+        //}
+        weapon.WeaponInit(this, target);
     }
 
     public IEnumerator DeactivateProjectile(GameObject gameObject)
@@ -157,5 +175,10 @@ public class Character : GameUnit
 
             meshPlayer.rotation = Quaternion.LookRotation(lookDirection);
         }
+    }
+
+    public void SetMask(bool isActive)
+    {
+        this.gameObject.SetActive(isActive);
     }
 }

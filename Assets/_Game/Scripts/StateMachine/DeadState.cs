@@ -12,31 +12,27 @@ public class DeadState : IState
     {
         time = 0.1f;
         timer = 3.1f;
-        bot.OnHit();
+        bot.OnHit();    
     }
 
     public void OnExecute(Bot bot)
     {
         time += Time.deltaTime;
-        if (time > timer)
+        if (time >= timer)
         {
-
-            bot.SetIsDead(false);
-
+            bot.isDead = true;
+            bot.ChangeState(new IdleState());
             SimplePool.Despawn(bot);
             LevelManager.instance.alive--;
             if (LevelManager.instance.alive > Variable.MAXBOTONSCREEN)
             {
                 SpawnBot.SpawnerBotInstance.StartCoroutine(SpawnBot.SpawnerBotInstance.DoSpawnBot());
             }
-            // SpawnBot.SpawnerBotInstance.DespawnNameBot(bot); Xoa ten cua bot
             SpawnBot.SpawnerBotInstance.listBotToPool.Remove(bot);
             time = 0;
         }
     }
-
     public void OnExit(Bot bot)
     {
-        
     }
 }
